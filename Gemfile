@@ -22,6 +22,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'state_machines'
 gem 'state_machines-activerecord'
+gem 'slim-rails'
+gem 'simple_form'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
