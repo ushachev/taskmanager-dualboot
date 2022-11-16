@@ -11,14 +11,12 @@ html lang="en"
     - if !Rails.env.development?
       = stylesheet_packs_with_chunks_tag "application", media: "all"
 
-
   body
     = javascript_packs_with_chunks_tag 'application'
     header.mdl-layout__header
       .mdl-layout__header-row
-        .material-icons tab
         label.mdl-button.mdl-js-button.mdl-button--icon
-          i.material-icons
+          i.material-icons tab
         span.mdl-layout-title
           = "Task Manager"
         .mdl-layout-spacer
