@@ -23,7 +23,7 @@ h3 Users list
       - @users.each do |user|
         tr
           td= user.id
-          td= user.first_name
+          td= link_to user.first_name, admin_user_path(user)
           td= user.last_name
           td= user.email
           td= user.type
