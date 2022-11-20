@@ -24,6 +24,8 @@ gem 'state_machines'
 gem 'state_machines-activerecord'
 gem 'slim-rails'
 gem 'simple_form'
+gem 'kaminari'
+gem 'ransack'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
