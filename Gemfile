@@ -26,6 +26,8 @@ gem 'slim-rails'
 gem 'simple_form'
 gem 'kaminari'
 gem 'ransack'
+gem 'responders'
+gem 'active_model_serializers'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
