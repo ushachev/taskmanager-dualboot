@@ -15,6 +15,6 @@ FactoryBot.define do
   ].cycle
 
   sequence :expired_at do |n|
-    Date.current.advance(days: n).to_s
+    Date.current.advance(days: n)
   end
 end
