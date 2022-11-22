@@ -28,4 +28,20 @@ class Api::V1::TasksControllerTest < ActionController::TestCase
     assert_equal task_attributes.merge({ state: 'new_task' }).stringify_keys,
                  created_task.slice(*task_attributes.keys)
   end
+
+  test 'should patch update' do
+    author = create(:user)
+    assignee = create(:user)
+    task = create(:task, author: author)
+    task_attributes = attributes_for(:task).
+      merge({ author_id: author.id, assignee_id: assignee.id }).
+      except(:state).
+      stringify_keys
+
+    patch :update, params: { id: task.id, format: :json, task: task_attributes }
+    assert_response :success
+
+    task.reload
+    assert_equal task.slice(*task_attributes.keys), task_attributes
+  end
 end

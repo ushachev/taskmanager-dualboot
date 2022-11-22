@@ -3,6 +3,10 @@ class Api::V1::ApplicationController < Api::ApplicationController
 
   respond_to :json
 
+  def self.responder
+    JsonResponder
+  end
+
   def build_meta(collection)
     {
       count: collection.count,
