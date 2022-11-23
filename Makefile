@@ -1,8 +1,7 @@
 install:
 	docker compose run --rm web bundle install
 
-lint:
-	docker compose run --rm web bundle exec rubocop -A
+lint: lint-ruby lint-js
 
 test:
 	docker compose run --rm web bundle exec rails test
@@ -18,5 +17,14 @@ console:
 
 bash:
 	docker compose run --rm --service-ports web /bin/bash
+
+lint-ruby:
+	docker compose run --rm web bundle exec rubocop -A
+
+lint-js:
+	docker compose run --rm web yarn lint
+
+lint-js-fix:
+	docker compose run --rm web yarn lint --fix
 
 .PHONY: test
