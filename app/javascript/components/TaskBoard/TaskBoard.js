@@ -1,36 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Board from '@asseinfo/react-kanban';
 import '@asseinfo/react-kanban/dist/styles.css';
 
-const data = {
-  columns: [
-    {
-      id: 1,
-      title: 'Backlog',
-      cards: [
-        {
-          id: 1,
-          title: 'Add card',
-          description: 'Add capability to add a card in a column',
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: 'Doing',
-      cards: [
-        {
-          id: 2,
-          title: 'Drag-n-drop support',
-          description: 'Move a card between the columns',
-        },
-      ],
-    },
-  ],
+import Task from '../Task';
+
+const STATES = [
+  { key: 'new_task', value: 'New' },
+  { key: 'in_development', value: 'In Dev' },
+  { key: 'in_qa', value: 'In QA' },
+  { key: 'in_code_review', value: 'in CR' },
+  { key: 'ready_for_release', value: 'Ready for release' },
+  { key: 'released', value: 'Released' },
+  { key: 'archived', value: 'Archived' },
+];
+
+const initialBoard = {
+  columns: STATES.map((column) => ({
+    id: column.key,
+    title: column.value,
+    cards: [
+      {
+        id: 1,
+        name: `task name in '${column.value}' column`,
+        description: `task description in '${column.value}' column`,
+      },
+    ],
+    meta: {},
+  })),
 };
 
 function TaskBoard() {
-  return <Board initialBoard={data} disableColumnDrag />;
+  const [board] = useState(initialBoard);
+
+  return (
+    <Board
+      renderCard={(card) => <Task task={card} />}
+      disableColumnDrag
+    >
+      {board}
+    </Board>
+  );
 }
 
 export default TaskBoard;
