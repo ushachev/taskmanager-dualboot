@@ -37,15 +37,14 @@ function TaskBoard() {
       perPage,
     });
 
-  useEffect(() => {
-    STATES.forEach(async ({ key }) => {
-      const { data } = await loadTasks(key);
-      const { items: cards, meta } = data;
+  const setColumnCards = async (state) => {
+    const { data } = await loadTasks(state);
+    const { items: cards, meta } = data;
 
-      setBoardCards((prevCards) => ({ ...prevCards, [key]: { cards, meta } }));
-    });
-  }, []);
+    setBoardCards((prevCards) => ({ ...prevCards, [state]: { cards, meta } }));
+  };
 
+  useEffect(() => STATES.forEach(({ key }) => setColumnCards(key)), []);
   useEffect(() => {
     const columns = STATES.map(({ key, value }) => ({
       id: key,
@@ -67,10 +66,27 @@ function TaskBoard() {
     }));
   };
 
+  const handleCardDragEnd = (task, source, destination) => {
+    const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
+    if (!transition) {
+      return null;
+    }
+
+    return TasksRepository.update(task.id, { stateEvent: transition.event })
+      .then(() => {
+        setColumnCards(destination.toColumnId);
+        setColumnCards(source.fromColumnId);
+      })
+      .catch((error) => {
+        alert(`Move failed! ${error.message}`);
+      });
+  };
+
   return (
     <Board
       renderCard={(card) => <Task task={card} />}
       renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={updateColumnCards} />}
+      onCardDragEnd={handleCardDragEnd}
       disableColumnDrag
     >
       {board}
