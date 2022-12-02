@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Board from '@asseinfo/react-kanban';
 import '@asseinfo/react-kanban/dist/styles.css';
+import { propOr } from 'ramda';
 
 import Task from '../Task';
+import TasksRepository from '../../repositories/TasksRepository.js';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -18,19 +20,41 @@ const initialBoard = {
   columns: STATES.map((column) => ({
     id: column.key,
     title: column.value,
-    cards: [
-      {
-        id: 1,
-        name: `task name in '${column.value}' column`,
-        description: `task description in '${column.value}' column`,
-      },
-    ],
+    cards: [],
     meta: {},
   })),
 };
 
 function TaskBoard() {
-  const [board] = useState(initialBoard);
+  const [board, setBoard] = useState(initialBoard);
+  const [boardCards, setBoardCards] = useState({});
+
+  const loadTasks = (state, page = 1, perPage = 10) =>
+    TasksRepository.index({
+      q: { stateEq: state },
+      page,
+      perPage,
+    });
+
+  useEffect(() => {
+    STATES.forEach(async ({ key }) => {
+      const { data } = await loadTasks(key);
+      const { items: cards, meta } = data;
+
+      setBoardCards((prevCards) => ({ ...prevCards, [key]: { cards, meta } }));
+    });
+  }, []);
+
+  useEffect(() => {
+    const columns = STATES.map(({ key, value }) => ({
+      id: key,
+      title: value,
+      cards: propOr([], 'cards', boardCards[key]),
+      meta: propOr({}, 'meta', boardCards[key]),
+    }));
+
+    setBoard({ columns });
+  }, [boardCards]);
 
   return (
     <Board
