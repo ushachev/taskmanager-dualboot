@@ -4,6 +4,7 @@ import '@asseinfo/react-kanban/dist/styles.css';
 import { propOr } from 'ramda';
 
 import Task from '../Task';
+import ColumnHeader from '../ColumnHeader';
 import TasksRepository from '../../repositories/TasksRepository.js';
 
 const STATES = [
@@ -56,9 +57,20 @@ function TaskBoard() {
     setBoard({ columns });
   }, [boardCards]);
 
+  const updateColumnCards = async (state, page) => {
+    const { data } = await loadTasks(state, page);
+    const { items: cards, meta } = data;
+
+    setBoardCards((prevCards) => ({
+      ...prevCards,
+      [state]: { cards: prevCards[state].cards.concat(cards), meta },
+    }));
+  };
+
   return (
     <Board
       renderCard={(card) => <Task task={card} />}
+      renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={updateColumnCards} />}
       disableColumnDrag
     >
       {board}
