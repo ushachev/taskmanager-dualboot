@@ -7,7 +7,7 @@ import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 import useStyles from './useStyles';
 
 function ColumnHeader({ column, onLoadMore }) {
-  const [buttonClickable, setButtonClickable] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const styles = useStyles();
 
   const {
@@ -21,9 +21,9 @@ function ColumnHeader({ column, onLoadMore }) {
   const isLastPage = currentPage === (totalPages || 1);
 
   const handleLoadMore = async () => {
-    setButtonClickable(false);
+    setLoading(true);
     await onLoadMore(id, currentPage + 1);
-    setButtonClickable(true);
+    setLoading(false);
   };
 
   return (
@@ -33,7 +33,7 @@ function ColumnHeader({ column, onLoadMore }) {
       </div>
       {!isLastPage && (
         <div>
-          <IconButton aria-label="Load more" disabled={!buttonClickable} onClick={() => handleLoadMore()}>
+          <IconButton aria-label="Load more" disabled={isLoading} onClick={() => handleLoadMore()}>
             <SystemUpdateAltIcon fontSize="small" />
           </IconButton>
         </div>

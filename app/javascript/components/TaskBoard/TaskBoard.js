@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Board from '@asseinfo/react-kanban';
 import '@asseinfo/react-kanban/dist/styles.css';
 import { propOr } from 'ramda';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
+import useStyles from './useStyles.js';
 import Task from '../Task';
 import ColumnHeader from '../ColumnHeader';
+import AddPopup from '../AddPopup';
 import TasksRepository from '../../repositories/TasksRepository.js';
+import TaskForm from '../../forms/TaskForm';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
@@ -16,6 +21,11 @@ const STATES = [
   { key: 'released', value: 'Released' },
   { key: 'archived', value: 'Archived' },
 ];
+
+const MODES = {
+  ADD: 'add',
+  NONE: 'none',
+};
 
 const initialBoard = {
   columns: STATES.map((column) => ({
@@ -29,10 +39,12 @@ const initialBoard = {
 function TaskBoard() {
   const [board, setBoard] = useState(initialBoard);
   const [boardCards, setBoardCards] = useState({});
+  const [mode, setMode] = useState(MODES.NONE);
+  const styles = useStyles();
 
   const loadTasks = (state, page = 1, perPage = 10) =>
     TasksRepository.index({
-      q: { stateEq: state },
+      q: { stateEq: state, s: 'id DESC' },
       page,
       perPage,
     });
@@ -64,31 +76,51 @@ function TaskBoard() {
     }));
   };
 
-  const handleCardDragEnd = (task, source, destination) => {
+  const handleCardDragEnd = async (task, source, destination) => {
     const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
-    if (!transition) {
-      return null;
-    }
 
-    return TasksRepository.update(task.id, { stateEvent: transition.event })
-      .then(() => {
+    try {
+      if (transition) {
+        await TasksRepository.update(task.id, { stateEvent: transition.event });
         setColumnCards(destination.toColumnId);
         setColumnCards(source.fromColumnId);
-      })
-      .catch((error) => {
-        alert(`Move failed! ${error.message}`);
-      });
+      }
+    } catch (error) {
+      alert(`Move failed! ${error.message}`);
+    }
+  };
+
+  const handleAddPopupOpen = () => {
+    setMode(MODES.ADD);
+  };
+
+  const handleClose = () => {
+    setMode(MODES.NONE);
+  };
+
+  const handleTaskCreate = async (params) => {
+    const attributes = TaskForm.attributesToSubmit(params);
+    const task = await TasksRepository.create(attributes);
+
+    setColumnCards(task.state);
+    handleClose();
   };
 
   return (
-    <Board
-      renderCard={(card) => <Task task={card} />}
-      renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={updateColumnCards} />}
-      onCardDragEnd={handleCardDragEnd}
-      disableColumnDrag
-    >
-      {board}
-    </Board>
+    <>
+      <Board
+        renderCard={(card) => <Task task={card} />}
+        renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={updateColumnCards} />}
+        onCardDragEnd={handleCardDragEnd}
+        disableColumnDrag
+      >
+        {board}
+      </Board>
+      <Fab className={styles.addButton} color="primary" aria-label="add" onClick={handleAddPopupOpen}>
+        <AddIcon />
+      </Fab>
+      {mode === MODES.ADD && <AddPopup onCardCreate={handleTaskCreate} onClose={handleClose} />}
+    </>
   );
 }
 
