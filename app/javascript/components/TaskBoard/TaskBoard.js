@@ -38,8 +38,7 @@ function TaskBoard() {
     });
 
   const setColumnCards = async (state) => {
-    const { data } = await loadTasks(state);
-    const { items: cards, meta } = data;
+    const { items: cards, meta } = await loadTasks(state);
 
     setBoardCards((prevCards) => ({ ...prevCards, [state]: { cards, meta } }));
   };
@@ -57,8 +56,7 @@ function TaskBoard() {
   }, [boardCards]);
 
   const updateColumnCards = async (state, page) => {
-    const { data } = await loadTasks(state, page);
-    const { items: cards, meta } = data;
+    const { items: cards, meta } = await loadTasks(state, page);
 
     setBoardCards((prevCards) => ({
       ...prevCards,
