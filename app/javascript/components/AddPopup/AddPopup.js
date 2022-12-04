@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { has } from 'ramda';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -10,8 +9,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
-import TextField from '@material-ui/core/TextField';
 
+import Form from '../Form';
 import TaskForm from '../../forms/TaskForm';
 
 import useStyles from './useStyles';
@@ -34,7 +33,6 @@ function AddPopup({ onClose, onCardCreate }) {
       }
     });
   };
-  const handleChangeTextField = (fieldName) => (event) => changeTask({ ...task, [fieldName]: event.target.value });
 
   return (
     <Modal className={styles.modal} open onClose={onClose}>
@@ -48,27 +46,7 @@ function AddPopup({ onClose, onCardCreate }) {
           title="Add New Task"
         />
         <CardContent>
-          <div className={styles.form}>
-            <TextField
-              autoFocus
-              error={has('name', errors)}
-              helperText={errors.name}
-              onChange={handleChangeTextField('name')}
-              value={task.name}
-              label="Name"
-              required
-              margin="dense"
-            />
-            <TextField
-              error={has('description', errors)}
-              helperText={errors.description}
-              onChange={handleChangeTextField('description')}
-              value={task.description}
-              label="Description"
-              required
-              margin="dense"
-            />
-          </div>
+          <Form errors={errors} onChange={changeTask} task={task} />
         </CardContent>
         <CardActions className={styles.actions}>
           <Button disabled={isSaving} onClick={handleCreate} variant="contained" size="small" color="primary">

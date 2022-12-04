@@ -16,11 +16,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
 }));
 
 export default useStyles;
