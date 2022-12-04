@@ -9,6 +9,7 @@ import useStyles from './useStyles.js';
 import Task from '../Task';
 import ColumnHeader from '../ColumnHeader';
 import AddPopup from '../AddPopup';
+import EditPopup from '../EditPopup';
 import TasksRepository from '../../repositories/TasksRepository.js';
 import TaskForm from '../../forms/TaskForm';
 
@@ -25,6 +26,7 @@ const STATES = [
 const MODES = {
   ADD: 'add',
   NONE: 'none',
+  EDIT: 'edit',
 };
 
 const initialBoard = {
@@ -40,6 +42,7 @@ function TaskBoard() {
   const [board, setBoard] = useState(initialBoard);
   const [boardCards, setBoardCards] = useState({});
   const [mode, setMode] = useState(MODES.NONE);
+  const [openedTaskId, setOpenedTaskId] = useState(null);
   const styles = useStyles();
 
   const loadTasks = (state, page = 1, perPage = 10) =>
@@ -55,6 +58,15 @@ function TaskBoard() {
     setBoardCards((prevCards) => ({ ...prevCards, [state]: { cards, meta } }));
   };
 
+  const updateColumnCards = async (state, page) => {
+    const { items: cards, meta } = await loadTasks(state, page);
+
+    setBoardCards((prevCards) => ({
+      ...prevCards,
+      [state]: { cards: prevCards[state].cards.concat(cards), meta },
+    }));
+  };
+
   useEffect(() => STATES.forEach(({ key }) => setColumnCards(key)), []);
   useEffect(() => {
     const columns = STATES.map(({ key, value }) => ({
@@ -66,15 +78,6 @@ function TaskBoard() {
 
     setBoard({ columns });
   }, [boardCards]);
-
-  const updateColumnCards = async (state, page) => {
-    const { items: cards, meta } = await loadTasks(state, page);
-
-    setBoardCards((prevCards) => ({
-      ...prevCards,
-      [state]: { cards: prevCards[state].cards.concat(cards), meta },
-    }));
-  };
 
   const handleCardDragEnd = async (task, source, destination) => {
     const transition = task.transitions.find(({ to }) => destination.toColumnId === to);
@@ -94,6 +97,11 @@ function TaskBoard() {
     setMode(MODES.ADD);
   };
 
+  const handleEditPopupOpen = (task) => {
+    setOpenedTaskId(task.id);
+    setMode(MODES.EDIT);
+  };
+
   const handleClose = () => {
     setMode(MODES.NONE);
   };
@@ -106,10 +114,24 @@ function TaskBoard() {
     handleClose();
   };
 
+  const handleTaskUpdate = async (task) => {
+    const attributes = TaskForm.attributesToSubmit(task);
+
+    await TasksRepository.update(task.id, attributes);
+    setColumnCards(task.state);
+    handleClose();
+  };
+
+  const handleTaskDestroy = async (task) => {
+    await TasksRepository.destroy(task.id);
+    setColumnCards(task.state);
+    handleClose();
+  };
+
   return (
     <>
       <Board
-        renderCard={(card) => <Task task={card} />}
+        renderCard={(card) => <Task task={card} onClick={handleEditPopupOpen} />}
         renderColumnHeader={(column) => <ColumnHeader column={column} onLoadMore={updateColumnCards} />}
         onCardDragEnd={handleCardDragEnd}
         disableColumnDrag
@@ -120,6 +142,15 @@ function TaskBoard() {
         <AddIcon />
       </Fab>
       {mode === MODES.ADD && <AddPopup onCardCreate={handleTaskCreate} onClose={handleClose} />}
+      {mode === MODES.EDIT && (
+        <EditPopup
+          loadCard={TasksRepository.show}
+          onCardDestroy={handleTaskDestroy}
+          onCardUpdate={handleTaskUpdate}
+          onClose={handleClose}
+          cardId={openedTaskId}
+        />
+      )}
     </>
   );
 }
