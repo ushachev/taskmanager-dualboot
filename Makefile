@@ -6,6 +6,9 @@ lint: lint-ruby lint-js
 test:
 	docker compose run --rm web bundle exec rails test
 
+test-coverage:
+	docker compose run --rm --env COVERAGE=true web bundle exec rails test
+
 test-pick:
 	docker compose run --rm web bundle exec rails test test/${test}_test.rb
 
