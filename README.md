@@ -1,24 +1,6 @@
-# README
+# Task manager
+[![Main](https://github.com/ushachev/taskmanager-dualboot/actions/workflows/main.yml/badge.svg)](https://github.com/ushachev/taskmanager-dualboot/actions/workflows/main.yml)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Study project for the Full Stack Programmer (Ruby On Rails + React, Redux) educational course.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Provided by the [DualBoot company](https://learn.dualboot.ru/)
