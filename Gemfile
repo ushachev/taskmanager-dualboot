@@ -57,7 +57,7 @@ group :test do
   gem 'capybara', '>= 3.26'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
-  gem 'simplecov-lcov', '~> 0.8.0'
+  gem 'simplecov-lcov', '~> 0.8.0', require: false
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
 end
