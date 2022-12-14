@@ -4,3 +4,5 @@
 Study project for the Full Stack Programmer (Ruby On Rails + React, Redux) educational course.
 
 Provided by the [DualBoot company](https://learn.dualboot.ru/)
+
+Deployed at [https://taskmanager-dbp.onrender.com](https://taskmanager-dbp.onrender.com)
