@@ -1,0 +1,18 @@
+databases:
+  - name: task_manager
+    databaseName: task_manager
+    user: task_manager
+
+services:
+  - type: web
+    name: task_manager
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: task_manager
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
