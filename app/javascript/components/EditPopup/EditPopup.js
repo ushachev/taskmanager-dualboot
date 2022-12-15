@@ -22,31 +22,36 @@ function EditPopup({ cardId, loadCard, onClose, onCardDestroy, onCardUpdate }) {
   const [errors, setErrors] = useState({});
   const styles = useStyles();
 
-  useEffect(() => {
-    loadCard(cardId).then(setTask);
+  useEffect(async () => {
+    const loadedCard = await loadCard(cardId);
+    setTask(loadedCard);
   }, []);
 
   const handleCardUpdate = () => {
     setSaving(true);
 
-    onCardUpdate(task).catch((error) => {
+    try {
+      onCardUpdate(task);
+    } catch (error) {
       setSaving(false);
       setErrors(error || {});
 
       if (error instanceof Error) {
         alert(`Update Failed! Error: ${error.message}`);
       }
-    });
+    }
   };
 
   const handleCardDestroy = () => {
     setSaving(true);
 
-    onCardDestroy(task).catch((error) => {
+    try {
+      onCardDestroy(task);
+    } catch (error) {
       setSaving(false);
 
       alert(`Destrucion Failed! Error: ${error.message}`);
-    });
+    }
   };
   const isLoading = isNil(task);
 

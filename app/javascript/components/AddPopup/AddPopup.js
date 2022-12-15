@@ -24,14 +24,16 @@ function AddPopup({ onClose, onCardCreate }) {
   const handleCreate = () => {
     setSaving(true);
 
-    onCardCreate(task).catch((error) => {
+    try {
+      onCardCreate(task);
+    } catch (error) {
       setSaving(false);
       setErrors(error || {});
 
       if (error instanceof Error) {
         alert(`Creation Failed! Error: ${error.message}`);
       }
-    });
+    }
   };
 
   return (
