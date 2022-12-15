@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 
-import Form from '../Form';
+import Form from 'components/Form';
 
 import useStyles from './useStyles';
 

@@ -6,12 +6,12 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import useStyles from './useStyles.js';
-import Task from '../Task';
-import ColumnHeader from '../ColumnHeader';
-import AddPopup from '../AddPopup';
-import EditPopup from '../EditPopup';
-import TasksRepository from '../../repositories/TasksRepository.js';
-import TaskForm from '../../forms/TaskForm';
+import Task from 'components/Task';
+import ColumnHeader from 'components/ColumnHeader';
+import AddPopup from 'components/AddPopup';
+import EditPopup from 'components/EditPopup';
+import TasksRepository from 'repositories/TasksRepository.js';
+import TaskForm from 'forms/TaskForm';
 
 const STATES = [
   { key: 'new_task', value: 'New' },
