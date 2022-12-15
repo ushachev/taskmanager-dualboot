@@ -22,7 +22,7 @@ export default {
     const path = routes.apiV1TaskPath(id);
     const {
       data: { task: updatedTask },
-    } = await FetchHelper.patch(path, task);
+    } = await FetchHelper.patch(path, { task });
 
     return updatedTask;
   },
@@ -31,7 +31,7 @@ export default {
     const path = routes.apiV1TasksPath();
     const {
       data: { task: createdTask },
-    } = await FetchHelper.post(path, task);
+    } = await FetchHelper.post(path, { task });
 
     return createdTask;
   },

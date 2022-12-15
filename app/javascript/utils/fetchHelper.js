@@ -51,13 +51,13 @@ export default {
   post(url, json) {
     const body = decamelize(json);
 
-    return axios.post(url, { task: body }).then(camelize);
+    return axios.post(url, body).then(camelize);
   },
 
   patch(url, json) {
     const body = decamelize(json);
 
-    return axios.patch(url, { task: body }).then(camelize);
+    return axios.patch(url, body).then(camelize);
   },
 
   delete(url) {
