@@ -18,6 +18,11 @@
 
   "settings": {
     "import/extensions": [".js", ".jsx"],
+    "import/resolver": {
+      "node": {
+        "paths": "app/javascript",
+      },
+    },
   },
 
   "rules": {
@@ -30,7 +35,10 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-unresolved": ["off"],
     "import/no-absolute-path": ["off"],
-    "import/order": ["off"],
+    "import/order": ["error", {
+      "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+      "newlines-between": "always-and-inside-groups"
+    }],
     "import/no-duplicates": ["off"],
     "import/first": ["off"],
     "import/no-named-as-default-member": ["off"],
