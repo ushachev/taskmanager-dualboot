@@ -89,6 +89,10 @@ GEM
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     docile (1.4.0)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -191,6 +195,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rollbar (3.3.2)
     rubocop (1.38.0)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -291,6 +296,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
+  dotenv-rails
   factory_bot_rails
   jbuilder (~> 2.7)
   kaminari
@@ -301,6 +307,7 @@ DEPENDENCIES
   rails (~> 6.1.4, >= 6.1.4.4)
   ransack
   responders
+  rollbar
   rubocop
   sass-rails (>= 6)
   selenium-webdriver
