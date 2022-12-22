@@ -1,7 +1,7 @@
 if ENV['COVERAGE']
   require 'simplecov'
 
-  SimpleCov.start 'rails' do
+  SimpleCov.start('rails') do
     if ENV['CI']
       require 'simplecov-lcov'
 
@@ -13,7 +13,7 @@ if ENV['COVERAGE']
       formatter SimpleCov::Formatter::LcovFormatter
     end
 
-    add_filter %w[version.rb initializer.rb]
+    add_filter ['version.rb', 'initializer.rb']
   end
 end
 
@@ -30,10 +30,10 @@ class ActiveSupport::TestCase
 
   if ENV['COVERAGE']
     parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+      SimpleCov.command_name("#{SimpleCov.command_name}-#{worker}")
     end
 
-    parallelize_teardown do |worker|
+    parallelize_teardown do |_worker|
       SimpleCov.result
     end
   end
