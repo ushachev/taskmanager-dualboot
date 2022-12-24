@@ -16,15 +16,15 @@ import Form from 'components/Form';
 
 import useStyles from './useStyles';
 
-function EditPopup({ cardId, loadCard, onClose, onCardDestroy, onCardUpdate }) {
+function EditPopup({ cardId, getCard, onClose, onCardDestroy, onCardUpdate }) {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
   const styles = useStyles();
 
   useEffect(async () => {
-    const loadedCard = await loadCard(cardId);
-    setTask(loadedCard);
+    const card = await getCard(cardId);
+    setTask(card);
   }, []);
 
   const handleCardUpdate = () => {
@@ -102,7 +102,7 @@ function EditPopup({ cardId, loadCard, onClose, onCardDestroy, onCardUpdate }) {
 
 EditPopup.propTypes = {
   cardId: PropTypes.number.isRequired,
-  loadCard: PropTypes.func.isRequired,
+  getCard: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onCardDestroy: PropTypes.func.isRequired,
   onCardUpdate: PropTypes.func.isRequired,

@@ -6,7 +6,7 @@ import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
 
 import useStyles from './useStyles';
 
-function ColumnHeader({ column, onLoadMore }) {
+function ColumnHeader({ column, onViewMore }) {
   const [isLoading, setLoading] = useState(false);
   const styles = useStyles();
 
@@ -20,9 +20,9 @@ function ColumnHeader({ column, onLoadMore }) {
   const count = cards.length;
   const isLastPage = currentPage === (totalPages || 1);
 
-  const handleLoadMore = async () => {
+  const handleViewMore = async () => {
     setLoading(true);
-    await onLoadMore(id, currentPage + 1);
+    await onViewMore(id, currentPage + 1);
     setLoading(false);
   };
 
@@ -33,7 +33,7 @@ function ColumnHeader({ column, onLoadMore }) {
       </div>
       {!isLastPage && (
         <div>
-          <IconButton aria-label="Load more" disabled={isLoading} onClick={() => handleLoadMore()}>
+          <IconButton aria-label="View more" disabled={isLoading} onClick={() => handleViewMore()}>
             <SystemUpdateAltIcon fontSize="small" />
           </IconButton>
         </div>
@@ -53,7 +53,7 @@ ColumnHeader.propTypes = {
       totalPages: PropTypes.number,
     }).isRequired,
   }).isRequired,
-  onLoadMore: PropTypes.func.isRequired,
+  onViewMore: PropTypes.func.isRequired,
 };
 
 export default ColumnHeader;
