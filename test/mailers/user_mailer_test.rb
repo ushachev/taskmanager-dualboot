@@ -20,7 +20,7 @@ class UserMailerTest < ActionMailer::TestCase
   test 'task updated' do
     user = create(:user)
     task = create(:task, author: user)
-    params = { task: task }
+    params = { user: user, task: task }
     email = UserMailer.with(params).task_updated
 
     assert_emails 1 do
@@ -36,7 +36,7 @@ class UserMailerTest < ActionMailer::TestCase
   test 'task deleted' do
     user = create(:user)
     task = create(:task, author: user)
-    params = { task: task }
+    params = { user: user, task: task }
     email = UserMailer.with(params).task_deleted
 
     assert_emails 1 do
