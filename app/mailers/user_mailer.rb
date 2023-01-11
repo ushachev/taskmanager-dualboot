@@ -17,7 +17,7 @@ class UserMailer < ApplicationMailer
   def task_deleted
     @task = params[:task]
 
-    mail(to: @task.author.email, subject: 'Task Deleted')
+    mail(to: @task[:author].email, subject: 'Task Deleted')
   end
 
   def password_reset

@@ -8,7 +8,7 @@ class Web::PasswordResetsController < Web::ApplicationController
   def create
     user = User.find_by(password_reset_params)
 
-    UserMailer.with({ user: user }).password_reset.deliver_now if user.present?
+    UserMailer.with({ user: user }).password_reset.deliver_later if user.present?
 
     redirect_to(:new_session)
   end
