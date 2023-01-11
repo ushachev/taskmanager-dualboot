@@ -35,6 +35,7 @@ gem 'mini_magick'
 gem 'virtus'
 gem 'file_validators'
 gem 'sidekiq'
+gem 'sidekiq-failures'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
