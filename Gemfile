@@ -31,6 +31,9 @@ gem 'state_machines'
 gem 'state_machines-activerecord'
 gem 'slim-rails'
 gem 'simple_form'
+gem 'mini_magick'
+gem 'virtus'
+gem 'file_validators'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
