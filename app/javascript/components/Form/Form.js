@@ -4,10 +4,13 @@ import { has } from 'ramda';
 
 import TextField from '@material-ui/core/TextField';
 
+import UserSelect from 'components/UserSelect';
+
 import useStyles from './useStyles';
 
 function Form({ errors, onChange, task }) {
   const handleChangeTextField = (fieldName) => (event) => onChange({ ...task, [fieldName]: event.target.value });
+  const handleChangeSelect = (fieldName) => (user) => onChange({ ...task, [fieldName]: user });
   const styles = useStyles();
 
   return (
@@ -31,6 +34,14 @@ function Form({ errors, onChange, task }) {
         required
         multiline
         margin="dense"
+      />
+      <UserSelect
+        label="Assignee"
+        value={task.assignee}
+        onChange={handleChangeSelect('assignee')}
+        isRequired
+        error={has('assignee', errors)}
+        helperText={errors.assignee}
       />
     </form>
   );
