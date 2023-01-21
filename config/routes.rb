@@ -22,6 +22,7 @@ Rails.application.routes.draw do
           put 'remove_image'
         end
       end
+      resources :users, only: [:index, :show]
     end
   end
 end
