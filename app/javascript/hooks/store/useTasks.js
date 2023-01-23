@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { STATES } from 'presenters/TaskPresenter';
 import * as TaskActions from 'slices/TasksSlice';
 import TaskForm from 'forms/TaskForm';
+import TasksRepository from 'repositories/TasksRepository';
 
 const useTasks = () => {
   const board = useSelector((state) => state.TasksSlice.board);
@@ -38,11 +39,13 @@ const useTasks = () => {
   return {
     board,
     appendCards,
-    getCard: TaskActions.selectTask,
+    getCard: TasksRepository.show,
     moveCard,
     createTask,
     updateTask,
     destroyTask,
+    attachImage: TasksRepository.attachImage,
+    removeImage: TasksRepository.removeImage,
   };
 };
 

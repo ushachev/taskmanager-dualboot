@@ -43,4 +43,22 @@ export default {
 
     return null;
   },
+
+  async attachImage(id, attachment = {}) {
+    const path = routes.attachImageApiV1TaskPath(id);
+    const {
+      data: { task },
+    } = await FetchHelper.putFormData(path, { attachment });
+
+    return task;
+  },
+
+  async removeImage(id) {
+    const path = routes.removeImageApiV1TaskPath(id);
+    const {
+      data: { task },
+    } = await FetchHelper.put(path, {});
+
+    return task;
+  },
 };

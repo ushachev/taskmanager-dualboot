@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
+import { serialize } from 'object-to-formdata';
 
 import { camelize, decamelize } from './keysConverter';
 
@@ -20,6 +21,7 @@ function headers() {
 axios.defaults.headers.get = headers();
 axios.defaults.headers.post = headers();
 axios.defaults.headers.patch = headers();
+axios.defaults.headers.put = headers();
 axios.defaults.headers.delete = headers();
 axios.interceptors.response.use(null, (error) => {
   if (error.response.status === 422) {
@@ -58,6 +60,25 @@ export default {
   async patch(url, json) {
     const body = decamelize(json);
     const response = await axios.patch(url, body);
+
+    return camelize(response);
+  },
+
+  async put(url, json) {
+    const body = decamelize(json);
+    const response = await axios.put(url, body);
+
+    return camelize(response);
+  },
+
+  async putFormData(url, json) {
+    const body = decamelize(json);
+    const formData = serialize(body);
+    const response = await axios.put(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
     return camelize(response);
   },
