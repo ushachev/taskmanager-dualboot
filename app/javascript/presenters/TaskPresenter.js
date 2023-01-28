@@ -27,6 +27,7 @@ export default new PropTypesPresenter({
       to: PropTypes.string,
     }),
   ),
+  imageUrl: PropTypes.string,
   author: UserPresenter.shape(),
   assignee: UserPresenter.shape(),
 });

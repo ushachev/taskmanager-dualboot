@@ -21,6 +21,31 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+
+  imageUploadContainer: {
+    paddingTop: 8,
+  },
+
+  imageUpload: {
+    maxHeight: 250,
+  },
+
+  previewContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+    paddingTop: 8,
+  },
+
+  preview: {
+    maxWidth: '100%',
+    maxHeight: 250,
+  },
+
+  removeBtn: {
+    marginTop: 8,
+  },
 }));
 
 export default useStyles;
