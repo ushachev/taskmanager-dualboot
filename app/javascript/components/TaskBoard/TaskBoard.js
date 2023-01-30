@@ -1,36 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Board from '@asseinfo/react-kanban';
 import '@asseinfo/react-kanban/dist/styles.css';
 
-const data = {
-  columns: [
-    {
-      id: 1,
-      title: 'Backlog',
-      cards: [
-        {
-          id: 1,
-          title: 'Add card',
-          description: 'Add capability to add a card in a column',
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: 'Doing',
-      cards: [
-        {
-          id: 2,
-          title: 'Drag-n-drop support',
-          description: 'Move a card between the columns',
-        },
-      ],
-    },
-  ],
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
+import Task from 'components/Task';
+import ColumnHeader from 'components/ColumnHeader';
+import AddPopup from 'components/AddPopup';
+import EditPopup from 'components/EditPopup';
+
+import useTasks from 'hooks/store/useTasks';
+
+import useStyles from './useStyles.js';
+
+const MODES = {
+  ADD: 'add',
+  NONE: 'none',
+  EDIT: 'edit',
 };
 
 function TaskBoard() {
-  return <Board initialBoard={data} disableColumnDrag />;
+  const { board, appendCards, getCard, moveCard, createTask, updateTask, destroyTask } = useTasks();
+  const [mode, setMode] = useState(MODES.NONE);
+  const [openedTaskId, setOpenedTaskId] = useState(null);
+  const styles = useStyles();
+
+  const handleOpenAddPopup = () => {
+    setMode(MODES.ADD);
+  };
+
+  const handleOpenEditPopup = (task) => {
+    setOpenedTaskId(task.id);
+    setMode(MODES.EDIT);
+  };
+
+  const handleClose = () => {
+    setMode(MODES.NONE);
+    setOpenedTaskId(null);
+  };
+
+  const handleCardDragEnd = async (task, _source, destination) => {
+    try {
+      await moveCard(task, destination);
+    } catch (error) {
+      alert(`Move failed! ${error.message}`);
+    }
+  };
+
+  const handleTaskCreate = async (params) => {
+    await createTask(params);
+    handleClose();
+  };
+
+  const handleTaskUpdate = async (task) => {
+    await updateTask(task);
+    handleClose();
+  };
+  const handleTaskDestroy = async (task) => {
+    await destroyTask(task);
+    handleClose();
+  };
+
+  return (
+    <>
+      <Board
+        renderCard={(card) => <Task task={card} onClick={handleOpenEditPopup} />}
+        renderColumnHeader={(column) => <ColumnHeader column={column} onViewMore={appendCards} />}
+        onCardDragEnd={handleCardDragEnd}
+        disableColumnDrag
+      >
+        {board}
+      </Board>
+      <Fab className={styles.addButton} color="primary" aria-label="add" onClick={handleOpenAddPopup}>
+        <AddIcon />
+      </Fab>
+      {mode === MODES.ADD && <AddPopup onCardCreate={handleTaskCreate} onClose={handleClose} />}
+      {mode === MODES.EDIT && (
+        <EditPopup
+          getCard={getCard}
+          onCardDestroy={handleTaskDestroy}
+          onCardUpdate={handleTaskUpdate}
+          onClose={handleClose}
+          cardId={openedTaskId}
+        />
+      )}
+    </>
+  );
 }
 
 export default TaskBoard;
