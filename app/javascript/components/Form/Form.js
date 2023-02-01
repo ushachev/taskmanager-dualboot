@@ -14,6 +14,8 @@ function Form({ errors, onChange, task }) {
   const handleChangeSelect = (fieldName) => (user) => onChange({ ...task, [fieldName]: user });
   const styles = useStyles();
 
+  const taskAuthor = TaskPresenter.author(task);
+
   return (
     <form className={styles.root}>
       <TextField
@@ -36,6 +38,16 @@ function Form({ errors, onChange, task }) {
         multiline
         margin="dense"
       />
+      {!!taskAuthor && (
+        <UserSelect
+          label="Author"
+          value={taskAuthor}
+          isRequired
+          isDisabled
+          error={has('author', errors)}
+          helperText={errors.author}
+        />
+      )}
       <UserSelect
         label="Assignee"
         value={TaskPresenter.assignee(task)}
