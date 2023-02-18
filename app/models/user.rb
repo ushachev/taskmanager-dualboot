@@ -10,8 +10,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   def reset_token(expires_in: 24.hours)
-    update({ reset_mark: SecureRandom.base58 })
-    reset_data = [id, reset_mark]
+    update({ valid_reset_token_id: SecureRandom.base58 })
+    reset_data = [id, valid_reset_token_id]
     User.signed_id_verifier.generate(reset_data, expires_in: expires_in, purpose: :password_reset)
   end
 
@@ -19,9 +19,9 @@ class User < ApplicationRecord
     reset_data = User.signed_id_verifier.verified(token, purpose: :password_reset)
     return nil if reset_data.nil?
 
-    user_id, user_reset_mark = reset_data
+    user_id, user_valid_reset_token_id = reset_data
     user = find(user_id)
 
-    user&.reset_mark.nil? || user_reset_mark != user.reset_mark ? nil : user
+    user&.valid_reset_token_id.nil? || user_valid_reset_token_id != user.valid_reset_token_id ? nil : user
   end
 end

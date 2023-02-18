@@ -21,7 +21,7 @@ class Web::PasswordResetsController < Web::ApplicationController
     if user_params[:password].blank?
       @user.errors.add(:password, :blank)
       render(:edit)
-    elsif @user.update(user_params.merge({ reset_mark: nil }))
+    elsif @user.update(user_params.merge({ valid_reset_token_id: nil }))
       redirect_to(:new_session, notice: 'Password has been reset')
     else
       render(:edit)
