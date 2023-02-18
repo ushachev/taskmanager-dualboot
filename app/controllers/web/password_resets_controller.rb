@@ -8,9 +8,7 @@ class Web::PasswordResetsController < Web::ApplicationController
   def create
     user = User.find_by(password_reset_params)
 
-    if user
-      UserMailer.with({ user: user }).password_reset.deliver_now
-    end
+    UserMailer.with({ user: user }).password_reset.deliver_now if user.present?
 
     redirect_to(:new_session)
   end
@@ -18,10 +16,10 @@ class Web::PasswordResetsController < Web::ApplicationController
   def edit; end
 
   def update
-    if user_params[:password].blank?
+    if password_params[:password].blank?
       @user.errors.add(:password, :blank)
       render(:edit)
-    elsif @user.update(user_params.merge({ valid_reset_token_id: nil }))
+    elsif PasswordResettingService.set_password(@user, password_params)
       redirect_to(:new_session, notice: 'Password has been reset')
     else
       render(:edit)
@@ -31,7 +29,7 @@ class Web::PasswordResetsController < Web::ApplicationController
   private
 
   def validate_token
-    @user = User.find_by_reset_token(params[:id])
+    @user = PasswordResettingService.find_user_by_token(params[:id])
     redirect_to(:new_session, alert: 'Password reset has expired') unless @user
   end
 
@@ -39,7 +37,7 @@ class Web::PasswordResetsController < Web::ApplicationController
     params.require(:password_reset_form).permit(:email)
   end
 
-  def user_params
+  def password_params
     params.require(:user).permit(:password, :password_confirmation)
   end
 end

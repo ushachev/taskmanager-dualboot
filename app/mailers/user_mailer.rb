@@ -22,7 +22,7 @@ class UserMailer < ApplicationMailer
 
   def password_reset
     user = params[:user]
-    @token = user.reset_token
+    @token = PasswordResettingService.token(user)
 
     mail(to: user.email, subject: 'Reset Password')
   end

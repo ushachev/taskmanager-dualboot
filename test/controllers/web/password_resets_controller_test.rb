@@ -26,13 +26,13 @@ class Web::PasswordResetsControllerTest < ActionController::TestCase
 
   test 'should get edit' do
     user = create(:user)
-    get :edit, params: { id: user.reset_token }
+    get :edit, params: { id: PasswordResettingService.token(user) }
     assert_response :success
   end
 
   test 'should not get edit' do
     user = create(:user)
-    reset_token = user.reset_token
+    reset_token = PasswordResettingService.token(user)
     travel 24.hours + 1.minute
     get :edit, params: { id: reset_token }
 
@@ -42,8 +42,8 @@ class Web::PasswordResetsControllerTest < ActionController::TestCase
 
   test 'should not get edit 2' do
     user = create(:user)
-    reset_token = user.reset_token
-    _next_reset_token = user.reset_token
+    reset_token = PasswordResettingService.token(user)
+    _next_reset_token = PasswordResettingService.token(user)
     get :edit, params: { id: reset_token }
 
     assert_equal 'Password reset has expired', flash[:alert]
@@ -52,7 +52,7 @@ class Web::PasswordResetsControllerTest < ActionController::TestCase
 
   test 'should patch update' do
     user = create(:user)
-    reset_token = user.reset_token
+    reset_token = PasswordResettingService.token(user)
     password = generate(:string)
     user_attrs = {
       password: password,
