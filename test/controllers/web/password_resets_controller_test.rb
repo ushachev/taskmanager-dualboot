@@ -54,16 +54,16 @@ class Web::PasswordResetsControllerTest < ActionController::TestCase
     user = create(:user)
     reset_token = PasswordResettingService.token(user)
     password = generate(:string)
-    user_attrs = {
+    password_attrs = {
       password: password,
       password_confirmation: password,
     }
-    patch :update, params: { id: reset_token, user: user_attrs }
+    patch :update, params: { id: reset_token, password_form: password_attrs }
 
     assert_equal 'Password has been reset', flash[:notice]
     assert_response :redirect
 
-    patch :update, params: { id: reset_token, user: user_attrs }
+    patch :update, params: { id: reset_token, user: password_attrs }
 
     assert_equal 'Password reset has expired', flash[:alert]
     assert_response :redirect

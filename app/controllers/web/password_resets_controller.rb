@@ -13,11 +13,14 @@ class Web::PasswordResetsController < Web::ApplicationController
     redirect_to(:new_session)
   end
 
-  def edit; end
+  def edit
+    @password = PasswordForm.new
+  end
 
   def update
-    if password_params[:password].blank?
-      @user.errors.add(:password, :blank)
+    @password = PasswordForm.new(password_params)
+
+    if @password.invalid?
       render(:edit)
     elsif PasswordResettingService.set_password(@user, password_params)
       redirect_to(:new_session, notice: 'Password has been reset')
@@ -38,6 +41,6 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def password_params
-    params.require(:user).permit(:password, :password_confirmation)
+    params.require(:password_form).permit(:password, :password_confirmation)
   end
 end
