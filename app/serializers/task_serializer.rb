@@ -1,9 +1,9 @@
 class TaskSerializer < ApplicationSerializer
-  attributes :id, :name, :description, :state, :expired_at, :transitions, :image_url
+  attributes :id, :name, :description, :state, :expired_at
   belongs_to :author
   belongs_to :assignee
 
-  def transitions
+  attribute :transitions do
     object.state_transitions.map do |transition|
       {
         event: transition.event,
@@ -13,7 +13,7 @@ class TaskSerializer < ApplicationSerializer
     end
   end
 
-  def image_url
+  attribute :image_url do
     object.image.attached? ? AttachmentsService.file_url(object.image) : nil
   end
 end
