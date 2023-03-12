@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2023_01_05_083400) do
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "valid_reset_token_id"
+    t.string "valid_reset_token_mark"
   end
 
 end
