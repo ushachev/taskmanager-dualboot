@@ -41,7 +41,7 @@ function Form({ errors, onChange, task }) {
       {!!taskAuthor && (
         <UserSelect
           label="Author"
-          value={taskAuthor}
+          value={TaskPresenter.author(task)}
           isRequired
           isDisabled
           error={has('author', errors)}
