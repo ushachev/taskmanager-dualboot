@@ -7,8 +7,4 @@ class PasswordSettingForm
   )
 
   validates :password, presence: true, confirmation: true
-
-  def persisted?
-    true
-  end
 end

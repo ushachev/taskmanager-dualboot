@@ -58,12 +58,12 @@ class Web::PasswordResetsControllerTest < ActionController::TestCase
       password: password,
       password_confirmation: password,
     }
-    patch :update, params: { id: reset_token, password_setting: password_attrs }
+    patch :update, params: { id: reset_token, password_setting_form: password_attrs }
 
     assert_equal 'Password has been reset', flash[:notice]
     assert_response :redirect
 
-    patch :update, params: { id: reset_token, user: password_attrs }
+    patch :update, params: { id: reset_token }
 
     assert_equal 'Password reset has expired', flash[:alert]
     assert_response :redirect

@@ -40,6 +40,6 @@ class Web::PasswordResetsController < Web::ApplicationController
   end
 
   def password_params
-    params.require(:password_setting).permit(:password, :password_confirmation)
+    params.require(:password_setting_form).permit(:password, :password_confirmation)
   end
 end
