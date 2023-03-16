@@ -68,6 +68,10 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
     bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.13.0)
@@ -86,8 +90,12 @@ GEM
     case_transform (0.2)
       activesupport
     childprocess (4.1.0)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
     docile (1.4.0)
     erubi (1.11.0)
     factory_bot (6.2.1)
@@ -96,10 +104,14 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
+    file_validators (3.0.0)
+      activemodel (>= 3.2)
+      mime-types (>= 1.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    ice_nine (0.11.2)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -139,6 +151,10 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2022.0105)
+    mini_magick (4.12.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
     minitest (5.16.3)
@@ -266,10 +282,15 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     temple (0.8.2)
     thor (1.2.1)
+    thread_safe (0.3.6)
     tilt (2.0.11)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
+    virtus (2.0.0)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -304,12 +325,14 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   factory_bot_rails
+  file_validators
   jbuilder (~> 2.7)
   js-routes
   kaminari
   letter_opener
   letter_opener_web
   listen (~> 3.3)
+  mini_magick
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
@@ -327,6 +350,7 @@ DEPENDENCIES
   state_machines
   state_machines-activerecord
   tzinfo-data
+  virtus
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)
