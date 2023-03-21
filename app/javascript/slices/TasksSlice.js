@@ -26,8 +26,6 @@ const getTasksByState = async ({ state, page = 1, perPage = 10 }) => {
   return { items, meta, state };
 };
 
-export const selectTask = TasksRepository.show;
-
 export const selectTasks = createAsyncThunk('tasks/selectTasks', getTasksByState);
 
 export const selectMoreTasks = createAsyncThunk('tasks/selectMoreTasks', getTasksByState);

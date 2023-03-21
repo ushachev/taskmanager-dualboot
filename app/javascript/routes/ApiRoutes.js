@@ -557,6 +557,15 @@ export const apiV1UsersPath = __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"api"],[2,
 
 /**
  * Generates rails route to
+ * /api/v1/tasks/:id/attach_image(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const attachImageApiV1TaskPath = __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"api"],[2,[7,"/"],[2,[6,"v1"],[2,[7,"/"],[2,[6,"tasks"],[2,[7,"/"],[2,[3,"id"],[2,[7,"/"],[2,[6,"attach_image"],[1,[2,[8,"."],[3,"format"]]]]]]]]]]]]]);
+
+/**
+ * Generates rails route to
  * /board(.:format)
  * @param {object | undefined} options
  * @returns {string} route path
@@ -802,6 +811,15 @@ export const railsServiceBlobPath = __jsr.r({"signed_id":{"r":true},"filename":{
  * @returns {string} route path
  */
 export const railsServiceBlobProxyPath = __jsr.r({"signed_id":{"r":true},"filename":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"rails"],[2,[7,"/"],[2,[6,"active_storage"],[2,[7,"/"],[2,[6,"blobs"],[2,[7,"/"],[2,[6,"proxy"],[2,[7,"/"],[2,[3,"signed_id"],[2,[7,"/"],[2,[5,[3,"filename"]],[1,[2,[8,"."],[3,"format"]]]]]]]]]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /api/v1/tasks/:id/remove_image(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const removeImageApiV1TaskPath = __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"api"],[2,[7,"/"],[2,[6,"v1"],[2,[7,"/"],[2,[6,"tasks"],[2,[7,"/"],[2,[3,"id"],[2,[7,"/"],[2,[6,"remove_image"],[1,[2,[8,"."],[3,"format"]]]]]]]]]]]]]);
 
 /**
  * Generates rails route to

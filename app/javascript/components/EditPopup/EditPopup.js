@@ -13,13 +13,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 
 import Form from 'components/Form';
+import ImageUpload from 'components/ImageUpload';
 import TaskPresenter from 'presenters/TaskPresenter';
 
 import useStyles from './useStyles';
 
-function EditPopup({ cardId, getCard, onClose, onCardDestroy, onCardUpdate }) {
+function EditPopup({ cardId, getCard, onClose, onCardDestroy, onCardUpdate, onAttachImage, onRemoveImage }) {
   const [task, setTask] = useState(null);
   const [isSaving, setSaving] = useState(false);
+  const [isImageRemoving, setImageRemoving] = useState(false);
   const [errors, setErrors] = useState({});
   const styles = useStyles();
 
@@ -50,11 +52,34 @@ function EditPopup({ cardId, getCard, onClose, onCardDestroy, onCardUpdate }) {
       onCardDestroy(task);
     } catch (error) {
       setSaving(false);
-
       alert(`Destrucion Failed! Error: ${error.message}`);
     }
   };
+
+  const handleImageUpload = async (attachment) => {
+    try {
+      const taskWithImage = await onAttachImage(cardId, attachment);
+      setTask(taskWithImage);
+    } catch (error) {
+      alert(`Upload Failed! Error: ${error.message}`);
+    }
+  };
+
+  const handleImageRemove = async () => {
+    setImageRemoving(true);
+
+    try {
+      const taskWithoutImage = await onRemoveImage(cardId);
+      setTask(taskWithoutImage);
+      setImageRemoving(false);
+    } catch (error) {
+      alert(`Removing image Failed! Error: ${error.message}`);
+      setImageRemoving(false);
+    }
+  };
+
   const isLoading = isNil(task);
+  const previewSrc = TaskPresenter.imageUrl(task);
 
   return (
     <Modal className={styles.modal} open onClose={onClose}>
@@ -77,7 +102,28 @@ function EditPopup({ cardId, getCard, onClose, onCardDestroy, onCardUpdate }) {
               <CircularProgress />
             </div>
           ) : (
-            <Form errors={errors} onChange={setTask} task={task} />
+            <>
+              <Form errors={errors} onChange={setTask} task={task} />
+              {isNil(previewSrc) ? (
+                <div className={styles.imageUploadContainer}>
+                  <ImageUpload cropStyles={styles.imageUpload} onUpload={handleImageUpload} />
+                </div>
+              ) : (
+                <div className={styles.previewContainer}>
+                  <img className={styles.preview} src={previewSrc} alt="Attachment" />
+                  <Button
+                    disabled={isImageRemoving}
+                    className={styles.removeBtn}
+                    variant="contained"
+                    size="small"
+                    color="primary"
+                    onClick={handleImageRemove}
+                  >
+                    Remove image
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </CardContent>
         <CardActions className={styles.actions}>
@@ -111,6 +157,8 @@ EditPopup.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCardDestroy: PropTypes.func.isRequired,
   onCardUpdate: PropTypes.func.isRequired,
+  onAttachImage: PropTypes.func.isRequired,
+  onRemoveImage: PropTypes.func.isRequired,
 };
 
 export default EditPopup;
