@@ -8,7 +8,7 @@ class Web::PasswordResetsController < Web::ApplicationController
   def create
     user = User.find_by(password_reset_params)
 
-    SendPasswordResetMailJob.perform_async(user.id) if user.present?
+    Mail::SendPasswordResetLinkJob.perform_async(user.id) if user.present?
 
     redirect_to(:new_session)
   end
