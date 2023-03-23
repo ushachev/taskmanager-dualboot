@@ -8,7 +8,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.with(params).task_created
 
     assert_emails 1 do
-      email.deliver_now
+      email.deliver_later
     end
 
     assert_equal ['noreply@taskmanager.com'], email.from
@@ -20,11 +20,11 @@ class UserMailerTest < ActionMailer::TestCase
   test 'task updated' do
     user = create(:user)
     task = create(:task, author: user)
-    params = { task: task }
+    params = { user: user, task: task }
     email = UserMailer.with(params).task_updated
 
     assert_emails 1 do
-      email.deliver_now
+      email.deliver_later
     end
 
     assert_equal ['noreply@taskmanager.com'], email.from
@@ -36,11 +36,11 @@ class UserMailerTest < ActionMailer::TestCase
   test 'task deleted' do
     user = create(:user)
     task = create(:task, author: user)
-    params = { task: task }
+    params = { user: user, task: task }
     email = UserMailer.with(params).task_deleted
 
     assert_emails 1 do
-      email.deliver_now
+      email.deliver_later
     end
 
     assert_equal ['noreply@taskmanager.com'], email.from
@@ -55,7 +55,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.with(params).password_reset
 
     assert_emails 1 do
-      email.deliver_now
+      email.deliver_later
     end
 
     assert_equal ['noreply@taskmanager.com'], email.from
