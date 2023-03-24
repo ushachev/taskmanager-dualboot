@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Api::V1::TasksControllerTest < ActionController::TestCase
+  setup do
+    create_list(:task, 5)
+  end
+
   def after_teardown
     super
 
