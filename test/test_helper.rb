@@ -19,6 +19,7 @@ end
 
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
+require 'bullet_helper'
 require 'rails/test_help'
 require 'sidekiq/testing'
 
@@ -26,6 +27,7 @@ class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
   include AuthHelper
   include ActionMailer::TestHelper
+  include BulletHelper
 
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
