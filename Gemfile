@@ -34,6 +34,7 @@ gem 'simple_form'
 gem 'mini_magick'
 gem 'virtus'
 gem 'file_validators'
+gem 'newrelic_rpm'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

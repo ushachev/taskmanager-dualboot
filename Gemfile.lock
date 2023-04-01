@@ -162,6 +162,7 @@ GEM
     mini_portile2 (2.8.0)
     minitest (5.16.3)
     msgpack (1.5.6)
+    newrelic_rpm (9.0.0)
     nio4r (2.5.8)
     nokogiri (1.13.8)
       mini_portile2 (~> 2.8.0)
@@ -290,11 +291,11 @@ GEM
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
+    uniform_notifier (1.16.0)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
-    uniform_notifier (1.16.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -338,6 +339,7 @@ DEPENDENCIES
   letter_opener_web
   listen (~> 3.3)
   mini_magick
+  newrelic_rpm
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
