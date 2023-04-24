@@ -38,6 +38,7 @@ gem 'sidekiq', '~> 6.4'
 gem 'sidekiq-failures'
 gem 'sidekiq-throttled'
 gem 'sidekiq-unique-jobs'
+gem 'newrelic_rpm'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
